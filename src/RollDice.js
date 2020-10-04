@@ -12,7 +12,8 @@ class RollDice extends Component {
 
         this.state = {
             die1: "one",
-            die2: "five"
+            die2: "five",
+            isRolling: false
         }
     }
 
@@ -23,17 +24,25 @@ class RollDice extends Component {
         // set state with new rolls
         this.setState({
             die1: newDie1,
-            die2: newDie2
-        })
+            die2: newDie2,
+            isRolling: true
+        });
+
+        // wait one second then set isRolling to false
+        setTimeout(() => {
+            this.setState({isRolling: false})
+        }, 1000)
     }
     render() {
         return (
             <div className="RollDice">
                 <div className="RollDice-container">
-                    <Die face={this.state.die1} />
-                    <Die face={this.state.die2} />
+                    <Die face={this.state.die1} rolling={this.state.isRolling} />
+                    <Die face={this.state.die2} rolling={this.state.isRolling} />
                 </div>
-                <button onClick={this.roll}>Roll Dice!</button>
+                <button onClick={this.roll} disabled={this.state.isRolling}>
+                {this.state.isRolling ? "Rolling...!!" : "Roll Dice"}
+                </button>
             </div>
         );
     }
